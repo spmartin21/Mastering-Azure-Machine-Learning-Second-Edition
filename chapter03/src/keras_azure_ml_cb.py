@@ -1,11 +1,11 @@
 from tensorflow.keras.callbacks import Callback
 import numpy as np
+import mlflow
 
 class AzureMlKerasCallback(Callback):
 
-    def __init__(self, run):
+    def __init__(self):
         super(AzureMlKerasCallback, self).__init__()
-        self.run = run
 
     # Keras calls this at the end of an epoch 
     def on_epoch_end(self, epoch, logs=None):
@@ -18,8 +18,4 @@ class AzureMlKerasCallback(Callback):
         logs = logs or {}
 
         # add tracked metrics to the run logging
-        for metric_name, metric_val in logs.items():
-            if isinstance(metric_val, (np.ndarray, np.generic)):
-                self.run.log_list(metric_name, metric_val.tolist())
-            else:
-                self.run.log(metric_name, metric_val)
+        mlflow.log_metrics(logs)
