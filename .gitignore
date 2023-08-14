@@ -160,5 +160,5 @@ cython_debug/
 #.idea/
 
 # Project-specifc excludes
-**/.azureml/config.json
 data/
+output/
